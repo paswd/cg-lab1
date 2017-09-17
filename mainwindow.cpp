@@ -10,14 +10,17 @@
 const qreal PARAM = 2.;
 const qreal CONST_A = 0.;
 const qreal CONST_B = 20.;
-const qreal STRETCH = 40.;
+const qreal STRETCH = .14;
 const qreal STEP = .01;
+
+const int WINDOW_SPACE = 10;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->graphicsView->setGeometry(WINDOW_SPACE, WINDOW_SPACE, this->width() - 2 * WINDOW_SPACE, this->height() - 2 * WINDOW_SPACE);
     QGraphicsScene *scene = new QGraphicsScene(0, 0, ui->graphicsView->width() - 2, ui->graphicsView->height() - 2, this);
     ui->graphicsView->setScene(scene);
     this->GraphParams.Pen.setColor(Qt::black);
@@ -52,10 +55,10 @@ void MainWindow::DrawBasis(void) {
 //x = (3 * 2 * t) / (1 + t^3); y = (3 * 2 * t^2) / (1 + t^3)
 
 qreal MainWindow::FuncX(qreal t) {
-    return ((3. * PARAM * t) / (1 + (qreal) pow(t, 3))) * STRETCH;
+    return ((3. * PARAM * t) / (1 + (qreal) pow(t, 3))) * STRETCH * ui->graphicsView->width();
 }
 qreal MainWindow::FuncY(qreal t) {
-    return -((3. * PARAM * (qreal) pow(t, 2)) / (1 + (qreal) pow(t, 3))) * STRETCH;
+    return -((3. * PARAM * (qreal) pow(t, 2)) / (1 + (qreal) pow(t, 3))) * STRETCH * ui->graphicsView->height();
 }
 
 void MainWindow::DrawGraph(void) {
@@ -80,4 +83,7 @@ void MainWindow::DrawGraph(void) {
         QLineF tmp_line(x[0] + shift_x, y[0] + shift_y, x[1] + shift_x, y[1] + shift_y);
         scene->addLine(tmp_line, this->GraphParams.Pen);
     }
+}
+void MainWindow::Resized(void) {
+
 }
