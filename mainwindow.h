@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QPen>
 #include <QBrush>
+#include <QTimer>
 
 namespace Ui {
 class MainWindow;
@@ -23,19 +24,25 @@ class MainWindow : public QMainWindow
 
 public:
     GraphicsParams GraphParams;
+    int LastWidth;
+    int LastHeight;
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
     void DrawBasis(void);
     void DrawGraph(void);
 
-    void Resized(void);
+    void Configure(void);
 
     qreal FuncX(qreal t);
     qreal FuncY(qreal t);
 
+public slots:
+    void ResizeCheck(void);
+
 private:
     Ui::MainWindow *ui;
+    QTimer ResizeTimer;
 };
 
 #endif // MAINWINDOW_H

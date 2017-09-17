@@ -6,6 +6,7 @@
 #include <QBrush>
 #include <QPen>
 #include <cmath>
+#include <QDebug>
 
 const qreal PARAM = 2.;
 const qreal CONST_A = 0.;
@@ -20,6 +21,16 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    QGraphicsScene *scene = new QGraphicsScene(this);
+    ui->graphicsView->setScene(scene);
+    this->Configure();
+    //this->ResizeTimer.setSingleShot(true);
+    connect(&(this->ResizeTimer), SIGNAL(timeout()), this, SLOT(ResizeCheck()));
+    this->ResizeTimer.start();
+    /*this->LastWidth = this->width();
+    this->LastHeight = this->height();
+
     ui->graphicsView->setGeometry(WINDOW_SPACE, WINDOW_SPACE, this->width() - 2 * WINDOW_SPACE, this->height() - 2 * WINDOW_SPACE);
     QGraphicsScene *scene = new QGraphicsScene(0, 0, ui->graphicsView->width() - 2, ui->graphicsView->height() - 2, this);
     ui->graphicsView->setScene(scene);
@@ -28,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->GraphParams.basis_x = scene->width() / 2;
     this->GraphParams.basis_y = scene->height() / 2;
     this->DrawBasis();
-    this->DrawGraph();
+    this->DrawGraph();*/
     //QBrush brush(Qt::black);
     //QPen pen(Qt::black);
     //QLineF line(1, 1, 100, 100);
@@ -84,6 +95,29 @@ void MainWindow::DrawGraph(void) {
         scene->addLine(tmp_line, this->GraphParams.Pen);
     }
 }
-void MainWindow::Resized(void) {
+void MainWindow::Configure(void) {
+    this->LastWidth = this->width();
+    this->LastHeight = this->height();
 
+    ui->graphicsView->setGeometry(WINDOW_SPACE, WINDOW_SPACE, this->width() - 2 * WINDOW_SPACE, this->height() - 2 * WINDOW_SPACE);
+    QGraphicsScene *scene = ui->graphicsView->scene();
+    scene->clear();
+    /*if (scene != NULL) {
+        delete scene;
+    }
+    scene = new QGraphicsScene(0, 0, ui->graphicsView->width() - 2, ui->graphicsView->height() - 2, this);*/
+    scene->setSceneRect(0, 0, ui->graphicsView->width() - 2, ui->graphicsView->height() - 2);
+    //ui->graphicsView->setScene(scene);
+    this->GraphParams.Pen.setColor(Qt::black);
+    this->GraphParams.Brush.setColor(Qt::black);
+    this->GraphParams.basis_x = scene->width() / 2;
+    this->GraphParams.basis_y = scene->height() / 2;
+    this->DrawBasis();
+    this->DrawGraph();
+}
+void MainWindow::ResizeCheck(void) {
+    //qDebug() << "Check";
+    if (this->width() != this->LastWidth || this->height() != this->LastHeight) {
+        this->Configure();
+    }
 }
