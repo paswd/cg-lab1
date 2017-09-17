@@ -27,6 +27,10 @@ public:
     ~MainWindow();
 
     void DrawBasis(void);
+    void DrawGraph(void);
+
+    qreal FuncX(qreal t);
+    qreal FuncY(qreal t);
 
 private:
     Ui::MainWindow *ui;
