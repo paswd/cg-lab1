@@ -2,18 +2,31 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QPen>
+#include <QBrush>
 
 namespace Ui {
 class MainWindow;
 }
+
+class GraphicsParams {
+public:
+    QPen Pen;
+    QBrush Brush;
+    qreal basis_x;
+    qreal basis_y;
+};
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
+    GraphicsParams GraphParams;
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    void DrawBasis(void);
 
 private:
     Ui::MainWindow *ui;
