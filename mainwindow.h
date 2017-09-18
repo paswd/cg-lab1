@@ -16,6 +16,12 @@ public:
     QBrush Brush;
     qreal basis_x;
     qreal basis_y;
+
+    qreal ConstA;
+    qreal ConstB;
+    qreal Param;
+
+    bool SetParams;
 };
 
 class MainWindow : public QMainWindow
@@ -39,6 +45,9 @@ public:
 
 public slots:
     void ResizeCheck(void);
+
+private slots:
+    void on_ApplyParams_clicked();
 
 private:
     Ui::MainWindow *ui;
