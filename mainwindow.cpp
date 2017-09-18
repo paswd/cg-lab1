@@ -16,7 +16,7 @@ const qreal STRETCH = .14;
 const qreal STEP = .01;
 
 const int WINDOW_SPACE = 10;
-const int TOP_SPACE = 30;
+const int TOP_SPACE = 70;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
